@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by jeremyfransen on 5/5/17.
@@ -14,8 +17,8 @@ public class PayrollHoursHandler {
 
     private ArrayList<String> fileString = new ArrayList<>();
     private ArrayList<String> empNames = new ArrayList<>();
-    private ArrayList<Double> regHours = new ArrayList<>();
-    private ArrayList<Double> overtimeHours = new ArrayList<>();
+    private HashMap<String, Double> regHours = new HashMap<>();
+    private HashMap<String, Double> overtimeHours = new HashMap<>();
 
     public PayrollHoursHandler(String file1){
         fileString = openFile(file1);
@@ -34,11 +37,11 @@ public class PayrollHoursHandler {
         return empNames;
     }
 
-    public ArrayList<Double> getRegHours(){
+    public HashMap<String, Double> getRegHours(){
         return regHours;
     }
 
-    public ArrayList<Double> getOvertimeHours(){
+    public HashMap<String, Double> getOvertimeHours(){
         return overtimeHours;
     }
 
@@ -79,25 +82,35 @@ public class PayrollHoursHandler {
         return names;
     }
 
-    private ArrayList<Double> parseRegHours(ArrayList<String> file){
-        ArrayList<Double> regHours = new ArrayList();
+    private HashMap<String, Double> parseRegHours(ArrayList<String> file){
+        HashMap<String, Double> regHours = new HashMap<>();
+
         for (int i = 0; i < file.size(); i++){
+            String name = "";
             double hours = 0;
             String[] empInfo = file.get(i).split(",");
+            name = empInfo[0].replace("\"", "") + "," + empInfo[1].replace("\"", "");
+            name = name.toUpperCase();
             hours = round(Double.parseDouble(empInfo[3]), 2);
-            regHours.add(hours);
+            regHours.put(name, hours);
         }
+
         return regHours;
     }
 
-    private ArrayList<Double> parseOTHours(ArrayList<String> file){
-        ArrayList<Double> otHours = new ArrayList<>();
+    private HashMap<String, Double> parseOTHours(ArrayList<String> file){
+        HashMap<String, Double> otHours = new HashMap<>();
+
         for (int i = 0; i < file.size(); i++){
+            String name = "";
             double hours = 0;
             String[] empInfo = file.get(i).split(",");
+            name = empInfo[0].replace("\"", "") + "," + empInfo[1].replace("\"", "");
+            name = name.toUpperCase();
             hours = round(Double.parseDouble(empInfo[4]), 2);
-            otHours.add(hours);
+            otHours.put(name, hours);
         }
+
         return otHours;
     }
 

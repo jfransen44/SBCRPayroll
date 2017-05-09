@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Created by jeremyfransen on 5/3/17.
@@ -25,13 +26,18 @@ public class PayrollCalculator {
     public PayrollCalculator(String week1DLVReportPath, String week2DLVReportPath, String week1GoletaReportPath,
                              String week2GoletaReportPath, String week1VenturaReportPath,
                              String week2VenturaReportPath, String excelSheetPath){
+
+
         reportsWeek1DLV = new PayrollHoursHandler(week1DLVReportPath);
         reportsWeek2DLV = new PayrollHoursHandler(week2DLVReportPath);
-        reportsWeek1Fairview = new PayrollHoursHandler(week1GoletaReportPath);
+        /*reportsWeek1Fairview = new PayrollHoursHandler(week1GoletaReportPath);
         reportsWeek2Fairview = new PayrollHoursHandler(week2GoletaReportPath);
         reportsWeek1Ventura = new PayrollHoursHandler(week1VenturaReportPath);
-        reportsWeek2Ventura = new PayrollHoursHandler(week2VenturaReportPath);
+        reportsWeek2Ventura = new PayrollHoursHandler(week2VenturaReportPath);*/
         openFile(excelSheetPath);
+        addNames();
+        enterRegHours(reportsWeek1DLV.getRegHours());
+        enterOTHours(reportsWeek1DLV.getOvertimeHours());
     }
 
     public void openFile(String filePath){
@@ -53,8 +59,6 @@ public class PayrollCalculator {
             week1 = payrollCalculator.getSheet("WEEK 1");
             week2 = payrollCalculator.getSheet("WEEK 2");
             total = payrollCalculator.getSheet("TOTAL");
-            //total.shiftRows(8, 15, 10);
-            addNames();
         }
     }
 
@@ -72,23 +76,7 @@ public class PayrollCalculator {
 
 
     public void addNames() {
-        /*createRow();
-        Row row = week1.getRow(week1.getLastRowNum());
-        Cell cell = row.getCell(0);
-        cell.setCellValue("fu");
 
-        row = week2.getRow(week2.getLastRowNum());
-        cell = row.getCell(0);
-        cell.setCellValue("fu");
-
-        createRow();
-        Row row2 = week1.getRow(week1.getLastRowNum());
-        Cell cell2 = row2.getCell(0);
-        cell2.setCellValue("fu");
-
-        row2 = week2.getRow(week2.getLastRowNum());
-        cell2 = row2.getCell(0);
-        cell2.setCellValue("fu");*/
         ArrayList<String> names = getNames();
         for (int i = 0; i < names.size(); i++){
             String name = names.get(i);
@@ -112,8 +100,8 @@ public class PayrollCalculator {
         Row prevRow2 = week2.getRow(week2.getLastRowNum());
         Row newRow2 = week2.createRow(week2.getLastRowNum() + 1);
 
-        Row prevRow3 = total.getRow(total.getLastRowNum() - 8);  //8 offset to account for rows after employees
-        Row newRow3 = total.createRow(total.getLastRowNum() - 7); // 7
+        Row prevRow3 = total.getRow(total.getLastRowNum() - 8);  // offset to account for rows after employees
+        Row newRow3 = total.createRow(total.getLastRowNum() - 7);
         total.shiftRows(total.getLastRowNum() - 7, total.getLastRowNum(), 1);
 
 
@@ -121,7 +109,7 @@ public class PayrollCalculator {
         String newLineNum = Integer.toString(newRow1.getRowNum() + 1);
         String formula = "";
 
-        //create row in sheets "Week 1 and Week 2"
+        //create cells in sheets "Week 1 and Week 2"
         for (int i = 0; i < prevRow1.getLastCellNum(); i++){
             Cell prevCell1 = prevRow1.getCell(i);
             CellStyle cs = prevCell1.getCellStyle();
@@ -146,6 +134,7 @@ public class PayrollCalculator {
             }
         }
 
+        //create cells in sheet "total"
         for (int i = 0; i < prevRow3.getLastCellNum(); i++){
             Cell prevCell = prevRow3.getCell(i);
             CellStyle cs = prevCell.getCellStyle();
@@ -159,7 +148,6 @@ public class PayrollCalculator {
                 newCell.setCellFormula(formula);
             }
         }
-        //repairCellFormulas();
     }
 
     //adjust formulas in sheet "total" in totals section
@@ -212,20 +200,45 @@ public class PayrollCalculator {
         ArrayList<String> names = reportsWeek1DLV.getEmpNames();
         names.removeAll(reportsWeek2DLV.getEmpNames());
         names.addAll(reportsWeek2DLV.getEmpNames());
-        names.removeAll(reportsWeek1Fairview.getEmpNames());
+        /*names.removeAll(reportsWeek1Fairview.getEmpNames());
         names.addAll(reportsWeek1Fairview.getEmpNames());
         names.removeAll(reportsWeek2Fairview.getEmpNames());
         names.addAll(reportsWeek2Fairview.getEmpNames());
         names.removeAll(reportsWeek1Ventura.getEmpNames());
         names.addAll(reportsWeek1Ventura.getEmpNames());
         names.removeAll(reportsWeek2Ventura.getEmpNames());
-        names.addAll(reportsWeek2Ventura.getEmpNames());
+        names.addAll(reportsWeek2Ventura.getEmpNames());*/
         Collections.sort(names);
         return names;
     }
 
-     // TODO: 5/8/17 delete unused employees
-     // TODO: 5/8/17 sort alphabetically???
-     // TODO: 5/8/17 save updated empty calculator??
-     // TODO: 5/8/17 make single list of all names across both weeks - use for checking against calculator
+    private void enterRegHours(HashMap<String, Double> hours){
+
+        for (int i = 8; i <= week1.getLastRowNum(); i++){
+            Double empHours = 0.00;
+            String name = "";
+            Row row = week1.getRow(i);
+            Cell cell = row.getCell(1);
+            name = row.getCell(0).getStringCellValue();
+            if (hours.containsKey(name)) {
+                empHours = hours.get(name);
+            }
+            cell.setCellValue(empHours);
+        }
+    }
+
+    private void enterOTHours(HashMap<String, Double> otHours){
+
+        for (int i = 8; i <= week1.getLastRowNum(); i++){
+            Double empHours = 0.00;
+            String name = "";
+            Row row = week1.getRow(i);
+            Cell cell = row.getCell(2);
+            name = row.getCell(0).getStringCellValue();
+            if (otHours.containsKey(name)) {
+                empHours = otHours.get(name);
+            }
+            cell.setCellValue(empHours);
+        }
+    }
 }
