@@ -6,8 +6,6 @@ import org.apache.poi.ss.usermodel.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * Created by jeremyfransen on 5/3/17.
@@ -17,14 +15,23 @@ public class PayrollCalculator {
     private Sheet week1 = null;
     private Sheet week2 = null;
     private Sheet total = null;
-    private PayrollHoursHandler reportsWeek1 = null;
-    private PayrollHoursHandler reportsWeek2 = null;
+    private PayrollHoursHandler reportsWeek1DLV = null;
+    private PayrollHoursHandler reportsWeek2DLV = null;
+    private PayrollHoursHandler reportsWeek1Fairview = null;
+    private PayrollHoursHandler reportsWeek2Fairview = null;
+    private PayrollHoursHandler reportsWeek1Ventura = null;
+    private PayrollHoursHandler reportsWeek2Ventura = null;
 
-    public PayrollCalculator(String week1ReportPath, String week2ReportPath, String excelSheetPath){
-        reportsWeek1 = new PayrollHoursHandler(week1ReportPath);
-        reportsWeek2 = new PayrollHoursHandler(week2ReportPath);
+    public PayrollCalculator(String week1DLVReportPath, String week2DLVReportPath, String week1GoletaReportPath,
+                             String week2GoletaReportPath, String week1VenturaReportPath,
+                             String week2VenturaReportPath, String excelSheetPath){
+        reportsWeek1DLV = new PayrollHoursHandler(week1DLVReportPath);
+        reportsWeek2DLV = new PayrollHoursHandler(week2DLVReportPath);
+        reportsWeek1Fairview = new PayrollHoursHandler(week1GoletaReportPath);
+        reportsWeek2Fairview = new PayrollHoursHandler(week2GoletaReportPath);
+        reportsWeek1Ventura = new PayrollHoursHandler(week1VenturaReportPath);
+        reportsWeek2Ventura = new PayrollHoursHandler(week2VenturaReportPath);
         openFile(excelSheetPath);
-        getNames();
     }
 
     public void openFile(String filePath){
@@ -46,6 +53,8 @@ public class PayrollCalculator {
             week1 = payrollCalculator.getSheet("WEEK 1");
             week2 = payrollCalculator.getSheet("WEEK 2");
             total = payrollCalculator.getSheet("TOTAL");
+            //total.shiftRows(8, 15, 10);
+            addNames();
         }
     }
 
@@ -62,15 +71,37 @@ public class PayrollCalculator {
     }
 
 
-    public void addName(String name) {
-        createRow();
+    public void addNames() {
+        /*createRow();
         Row row = week1.getRow(week1.getLastRowNum());
         Cell cell = row.getCell(0);
-        cell.setCellValue(name.toUpperCase());
+        cell.setCellValue("fu");
 
         row = week2.getRow(week2.getLastRowNum());
         cell = row.getCell(0);
-        cell.setCellValue(name.toUpperCase());
+        cell.setCellValue("fu");
+
+        createRow();
+        Row row2 = week1.getRow(week1.getLastRowNum());
+        Cell cell2 = row2.getCell(0);
+        cell2.setCellValue("fu");
+
+        row2 = week2.getRow(week2.getLastRowNum());
+        cell2 = row2.getCell(0);
+        cell2.setCellValue("fu");*/
+        ArrayList<String> names = getNames();
+        for (int i = 0; i < names.size(); i++){
+            String name = names.get(i);
+            createRow();
+            Row row = week1.getRow(week1.getLastRowNum());
+            Cell cell = row.getCell(0);
+            cell.setCellValue(name.toUpperCase());
+
+            row = week2.getRow(week2.getLastRowNum());
+            cell = row.getCell(0);
+            cell.setCellValue(name.toUpperCase());
+        }
+        repairCellFormulas();
     }
 
     private void createRow(){
@@ -81,8 +112,10 @@ public class PayrollCalculator {
         Row prevRow2 = week2.getRow(week2.getLastRowNum());
         Row newRow2 = week2.createRow(week2.getLastRowNum() + 1);
 
-        Row prevRow3 = total.getRow(total.getLastRowNum() - 8);  //offset to account for rows after employees
-        Row newRow3 = total.createRow(total.getLastRowNum() - 7);
+        Row prevRow3 = total.getRow(total.getLastRowNum() - 8);  //8 offset to account for rows after employees
+        Row newRow3 = total.createRow(total.getLastRowNum() - 7); // 7
+        total.shiftRows(total.getLastRowNum() - 7, total.getLastRowNum(), 1);
+
 
         String prevLineNum = Integer.toString(newRow1.getRowNum());
         String newLineNum = Integer.toString(newRow1.getRowNum() + 1);
@@ -126,45 +159,69 @@ public class PayrollCalculator {
                 newCell.setCellFormula(formula);
             }
         }
-        repairCellFormulas();
+        //repairCellFormulas();
     }
 
     //adjust formulas in sheet "total" in totals section
     private void repairCellFormulas(){
-        Row row = total.getRow(total.getLastRowNum() - 2);
+
+        //fix formulas for total hours (column c)
+        //Total De La Vina
+        Row row = total.getRow(total.getLastRowNum() - 3);
         Cell cell = row.getCell(3);
         String formula = cell.getCellFormula();
-        int num = Integer.parseInt(formula.substring(formula.length() - 3, formula.length() - 1));
-        formula = formula.replace(Integer.toString(num), Integer.toString(num + 1));
+        int num = Integer.parseInt(formula.substring(formula.length() - 2, formula.length() - 1));
+        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
         cell.setCellFormula(formula);
 
-        row = total.getRow(total.getLastRowNum() - 3);
+        //Total Fairview
+        row = total.getRow(total.getLastRowNum() - 2);
         cell = row.getCell(3);
         formula = cell.getCellFormula();
-        formula = formula.replace(Integer.toString(num), Integer.toString(num + 1));
+        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
+        cell.setCellFormula(formula);
+
+        //Total Ventura
+        row = total.getRow(total.getLastRowNum() - 1);
+        cell = row.getCell(3);
+        formula = cell.getCellFormula();
+        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
+        cell.setCellFormula(formula);
+
+        //Total OT De La Vina
+        row = total.getRow(total.getLastRowNum() - 5);
+        cell = row.getCell(7);
+        formula = cell.getCellFormula();
+        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
+        cell.setCellFormula(formula);
+
+        //Total OT Fairview
+        cell = row.getCell(9);
+        formula = cell.getCellFormula();
+        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
+        cell.setCellFormula(formula);
+
+        //Total OT Ventura
+        cell = row.getCell(9);
+        formula = cell.getCellFormula();
+        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
         cell.setCellFormula(formula);
     }
 
-    /*private void checkNames(){
-        ArrayList<String> week1Names = reports.getEmpNamesWeek1();
-        ArrayList<String> week2Names = reports.getEmpNamesWeek2();
-
-        for (int i = 0; i < week1Names.size(); i++){
-            String name = week1Names.get(i);
-            for (int j = 0; j < week1.getLastRowNum(); j++){
-
-            }
-        }
-    }*/
-
-    private void getNames(){
-        ArrayList<String> week1Names = reportsWeek1.getEmpNames();
-        ArrayList<String> week2Names = reportsWeek2.getEmpNames();
-        week1Names.removeAll(week2Names);
-        week1Names.addAll(week2Names);
-        Collections.sort(week1Names);
-        for (int i = 0; i < week1Names.size(); i++)
-            System.out.println(week1Names.get(i));
+    private ArrayList<String> getNames(){
+        ArrayList<String> names = reportsWeek1DLV.getEmpNames();
+        names.removeAll(reportsWeek2DLV.getEmpNames());
+        names.addAll(reportsWeek2DLV.getEmpNames());
+        names.removeAll(reportsWeek1Fairview.getEmpNames());
+        names.addAll(reportsWeek1Fairview.getEmpNames());
+        names.removeAll(reportsWeek2Fairview.getEmpNames());
+        names.addAll(reportsWeek2Fairview.getEmpNames());
+        names.removeAll(reportsWeek1Ventura.getEmpNames());
+        names.addAll(reportsWeek1Ventura.getEmpNames());
+        names.removeAll(reportsWeek2Ventura.getEmpNames());
+        names.addAll(reportsWeek2Ventura.getEmpNames());
+        Collections.sort(names);
+        return names;
     }
 
      // TODO: 5/8/17 delete unused employees
