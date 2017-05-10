@@ -172,54 +172,36 @@ public class PayrollCalculator {
 
     //adjust formulas in sheet "total" in totals section
     private void repairCellFormulas(){
+        Row row = null;
+        String formula = "";
+        Cell cell = null;
+        int num = 0;
 
-        //fix formulas for total hours (column c)
-        //Total De La Vina
-        Row row = total.getRow(total.getLastRowNum() - 3);
-        Cell cell = row.getCell(3);
-        String formula = cell.getCellFormula();
-        int num = Integer.parseInt(formula.substring(formula.length() - 2, formula.length() - 1));
-        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
-        cell.setCellFormula(formula);
+        //fix formulas for total hours (column D)
+        for (int i = 1; i < 4; i++){
+            row = total.getRow(total.getLastRowNum() - i);
+            cell = row.getCell(3);
+            formula = cell.getCellFormula();
+            num = Integer.parseInt(formula.substring(formula.length() - 2, formula.length() - 1));
+            formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
+            cell.setCellFormula(formula);
+        }
 
-        //Total Fairview
-        row = total.getRow(total.getLastRowNum() - 2);
-        cell = row.getCell(3);
-        formula = cell.getCellFormula();
-        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
-        cell.setCellFormula(formula);
-
-        //Total Ventura
-        row = total.getRow(total.getLastRowNum() - 1);
-        cell = row.getCell(3);
-        formula = cell.getCellFormula();
-        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
-        cell.setCellFormula(formula);
-
-        //Total OT De La Vina
+        //fix formulas for Total OT
         row = total.getRow(total.getLastRowNum() - 5);
-        cell = row.getCell(7);
-        formula = cell.getCellFormula();
-        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
-        cell.setCellFormula(formula);
+        for (int i = 7; i < 12; i += 2){
+            cell = row.getCell(i);
+            formula = cell.getCellFormula();
+            System.out.println(formula);
+            formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
+            cell.setCellFormula(formula);
+        }
 
-        //Total OT Fairview
-        cell = row.getCell(9);
-        formula = cell.getCellFormula();
-        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
-        cell.setCellFormula(formula);
-
-        //Total OT Ventura
-        cell = row.getCell(11);
-        formula = cell.getCellFormula();
-        formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
-        cell.setCellFormula(formula);
-
+        //reset total sum
         row = total.getRow(total.getLastRowNum());
         cell = row.getCell(3);
         formula = cell.getCellFormula();
         cell.setCellFormula(formula);
-
     }
 
     private ArrayList<String> getNames(){
