@@ -13,14 +13,14 @@ import java.util.Set;
 /**
  * Created by jeremyfransen on 5/5/17.
  */
-public class PayrollHoursHandler {
+public class PayrollReportsHandler {
 
     private ArrayList<String> fileString = new ArrayList<>();
     private ArrayList<String> empNames = new ArrayList<>();
     private HashMap<String, Double> regHours = new HashMap<>();
     private HashMap<String, Double> overtimeHours = new HashMap<>();
 
-    public PayrollHoursHandler(String file1){
+    public PayrollReportsHandler(String file1){
         fileString = openFile(file1);
 
         //Strip extra information

@@ -16,24 +16,24 @@ public class PayrollCalculator {
     private Sheet week1 = null;
     private Sheet week2 = null;
     private Sheet total = null;
-    private PayrollHoursHandler reportsWeek1DLV = null;
-    private PayrollHoursHandler reportsWeek2DLV = null;
-    private PayrollHoursHandler reportsWeek1Fairview = null;
-    private PayrollHoursHandler reportsWeek2Fairview = null;
-    private PayrollHoursHandler reportsWeek1Ventura = null;
-    private PayrollHoursHandler reportsWeek2Ventura = null;
+    private PayrollReportsHandler reportsWeek1DLV = null;
+    private PayrollReportsHandler reportsWeek2DLV = null;
+    private PayrollReportsHandler reportsWeek1Fairview = null;
+    private PayrollReportsHandler reportsWeek2Fairview = null;
+    private PayrollReportsHandler reportsWeek1Ventura = null;
+    private PayrollReportsHandler reportsWeek2Ventura = null;
 
     public PayrollCalculator(String week1DLVReportPath, String week2DLVReportPath, String week1GoletaReportPath,
                              String week2GoletaReportPath, String week1VenturaReportPath,
                              String week2VenturaReportPath, String excelSheetPath){
 
 
-        reportsWeek1DLV = new PayrollHoursHandler(week1DLVReportPath);
-        reportsWeek2DLV = new PayrollHoursHandler(week2DLVReportPath);
-        reportsWeek1Fairview = new PayrollHoursHandler(week1GoletaReportPath);
-        reportsWeek2Fairview = new PayrollHoursHandler(week2GoletaReportPath);
-        reportsWeek1Ventura = new PayrollHoursHandler(week1VenturaReportPath);
-        reportsWeek2Ventura = new PayrollHoursHandler(week2VenturaReportPath);
+        reportsWeek1DLV = new PayrollReportsHandler(week1DLVReportPath);
+        reportsWeek2DLV = new PayrollReportsHandler(week2DLVReportPath);
+        reportsWeek1Fairview = new PayrollReportsHandler(week1GoletaReportPath);
+        reportsWeek2Fairview = new PayrollReportsHandler(week2GoletaReportPath);
+        reportsWeek1Ventura = new PayrollReportsHandler(week1VenturaReportPath);
+        reportsWeek2Ventura = new PayrollReportsHandler(week2VenturaReportPath);
         openFile(excelSheetPath);
 
     }
@@ -113,7 +113,7 @@ public class PayrollCalculator {
     }
 
     private void createRow(){
-        //get last existing row to copy cells, then add new empty row
+        //get last existing row to copy cells, then add new empty row in each sheet
         Row prevRow1 = week1.getRow(week1.getLastRowNum());
         Row newRow1 = week1.createRow(week1.getLastRowNum() + 1);
 
