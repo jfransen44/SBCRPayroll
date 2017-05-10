@@ -35,7 +35,6 @@ public class PayrollCalculator {
         reportsWeek1Ventura = new PayrollReportsHandler(week1VenturaReportPath);
         reportsWeek2Ventura = new PayrollReportsHandler(week2VenturaReportPath);
         openFile(excelSheetPath);
-
     }
 
     public void processPayroll(){
@@ -192,7 +191,6 @@ public class PayrollCalculator {
         for (int i = 7; i < 12; i += 2){
             cell = row.getCell(i);
             formula = cell.getCellFormula();
-            System.out.println(formula);
             formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
             cell.setCellFormula(formula);
         }

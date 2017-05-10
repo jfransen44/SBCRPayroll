@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         // write your code here
-        String calcPath = "/Users/jeremyfransen/Desktop/PRCALCTEST.xls";
+        //String calcPath = "/Users/jeremyfransen/Desktop/PRCALCTEST.xls";
         String week1D = "/Users/jeremyfransen/Desktop/Week1D.csv";
         String week2D = "/Users/jeremyfransen/Desktop/Week2D.csv";
 
@@ -15,7 +15,7 @@ public class Main {
         String week2V = "/Users/jeremyfransen/Desktop/Week2V.csv";
 
         PayrollCalculator payrollCalculator = new PayrollCalculator(week1D, week2D, week1F, week2F,
-                week1V, week2V, calcPath);
+                week1V, week2V, "EmptyCalculator.xls");
         payrollCalculator.processPayroll();
         payrollCalculator.saveFile("/Users/jeremyfransen/Desktop/output.xls");
     }
