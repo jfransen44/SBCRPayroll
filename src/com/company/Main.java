@@ -14,15 +14,9 @@ public class Main {
         String week1V = "/Users/jeremyfransen/Desktop/Week1V.csv";
         String week2V = "/Users/jeremyfransen/Desktop/Week2V.csv";
 
-        /*PayrollCalculator payrollCalculator = new PayrollCalculator();
-        payrollCalculator.openFile(filePath);
-        payrollCalculator.addName("FUCKFAXCE");
-        payrollCalculator.saveFile(filePath);*/
-        //String filePath = "/Users/jeremyfransen/Desktop/pr1.csv";
-        //PayrollHoursHandler payrollHoursHandler = new PayrollHoursHandler(filePath);
-        //payrollHoursHandler.openFile(filePath, filePath);
         PayrollCalculator payrollCalculator = new PayrollCalculator(week1D, week2D, week1F, week2F,
                 week1V, week2V, calcPath);
+        payrollCalculator.processPayroll();
         payrollCalculator.saveFile("/Users/jeremyfransen/Desktop/output.xls");
     }
 }

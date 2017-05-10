@@ -30,17 +30,37 @@ public class PayrollCalculator {
 
         reportsWeek1DLV = new PayrollHoursHandler(week1DLVReportPath);
         reportsWeek2DLV = new PayrollHoursHandler(week2DLVReportPath);
-        /*reportsWeek1Fairview = new PayrollHoursHandler(week1GoletaReportPath);
+        reportsWeek1Fairview = new PayrollHoursHandler(week1GoletaReportPath);
         reportsWeek2Fairview = new PayrollHoursHandler(week2GoletaReportPath);
         reportsWeek1Ventura = new PayrollHoursHandler(week1VenturaReportPath);
-        reportsWeek2Ventura = new PayrollHoursHandler(week2VenturaReportPath);*/
+        reportsWeek2Ventura = new PayrollHoursHandler(week2VenturaReportPath);
         openFile(excelSheetPath);
-        addNames();
-        enterRegHours(reportsWeek1DLV.getRegHours());
-        enterOTHours(reportsWeek1DLV.getOvertimeHours());
+
     }
 
-    public void openFile(String filePath){
+    public void processPayroll(){
+        addNames();
+
+        enterRegHours(reportsWeek1DLV.getRegHours(), week1, "De La Vina");
+        enterOTHours(reportsWeek1DLV.getOvertimeHours(), week1, "De La Vina");
+
+        enterRegHours(reportsWeek2DLV.getRegHours(), week2, "De La Vina");
+        enterOTHours(reportsWeek2DLV.getOvertimeHours(), week2, "De La Vina");
+
+        enterRegHours(reportsWeek1Fairview.getRegHours(), week1, "Fairview");
+        enterOTHours(reportsWeek1Fairview.getOvertimeHours(), week1, "Fairview");
+
+        enterRegHours(reportsWeek2Fairview.getRegHours(), week2, "Fairview");
+        enterOTHours(reportsWeek2Fairview.getOvertimeHours(), week2, "Fairview");
+
+        enterRegHours(reportsWeek1Ventura.getRegHours(), week1, "Ventura");
+        enterOTHours(reportsWeek1Ventura.getOvertimeHours(), week1, "Ventura");
+
+        enterRegHours(reportsWeek2Ventura.getRegHours(), week2, "Ventura");
+        enterOTHours(reportsWeek2Ventura.getOvertimeHours(), week2, "Ventura");
+    }
+
+    private void openFile(String filePath){
         try{
             InputStream inputStream = new FileInputStream(filePath);
             payrollCalculator =  WorkbookFactory.create(inputStream);
@@ -190,35 +210,54 @@ public class PayrollCalculator {
         cell.setCellFormula(formula);
 
         //Total OT Ventura
-        cell = row.getCell(9);
+        cell = row.getCell(11);
         formula = cell.getCellFormula();
         formula = formula.replace(Integer.toString(num), Integer.toString(total.getLastRowNum() - 7));
         cell.setCellFormula(formula);
+
+        row = total.getRow(total.getLastRowNum());
+        cell = row.getCell(3);
+        formula = cell.getCellFormula();
+        cell.setCellFormula(formula);
+
     }
 
     private ArrayList<String> getNames(){
         ArrayList<String> names = reportsWeek1DLV.getEmpNames();
         names.removeAll(reportsWeek2DLV.getEmpNames());
         names.addAll(reportsWeek2DLV.getEmpNames());
-        /*names.removeAll(reportsWeek1Fairview.getEmpNames());
+        names.removeAll(reportsWeek1Fairview.getEmpNames());
         names.addAll(reportsWeek1Fairview.getEmpNames());
         names.removeAll(reportsWeek2Fairview.getEmpNames());
         names.addAll(reportsWeek2Fairview.getEmpNames());
         names.removeAll(reportsWeek1Ventura.getEmpNames());
         names.addAll(reportsWeek1Ventura.getEmpNames());
         names.removeAll(reportsWeek2Ventura.getEmpNames());
-        names.addAll(reportsWeek2Ventura.getEmpNames());*/
+        names.addAll(reportsWeek2Ventura.getEmpNames());
         Collections.sort(names);
         return names;
     }
 
-    private void enterRegHours(HashMap<String, Double> hours){
+    private void enterRegHours(HashMap<String, Double> hours, Sheet sheet, String location){
+        int cellNum = 0;
 
-        for (int i = 8; i <= week1.getLastRowNum(); i++){
+        switch (location){
+            case "De La Vina":
+                cellNum = 1;
+                break;
+            case "Fairview":
+                cellNum = 3;
+                break;
+            case "Ventura":
+                cellNum = 5;
+                break;
+        }
+
+        for (int i = 8; i <= sheet.getLastRowNum(); i++){
             Double empHours = 0.00;
-            String name = "";
-            Row row = week1.getRow(i);
-            Cell cell = row.getCell(1);
+            String name;
+            Row row = sheet.getRow(i);
+            Cell cell = row.getCell(cellNum);
             name = row.getCell(0).getStringCellValue();
             if (hours.containsKey(name)) {
                 empHours = hours.get(name);
@@ -227,13 +266,27 @@ public class PayrollCalculator {
         }
     }
 
-    private void enterOTHours(HashMap<String, Double> otHours){
+    private void enterOTHours(HashMap<String, Double> otHours, Sheet sheet, String location){
 
-        for (int i = 8; i <= week1.getLastRowNum(); i++){
+        int cellNum = 0;
+
+        switch (location){
+            case "De La Vina":
+                cellNum = 2;
+                break;
+            case "Fairview":
+                cellNum = 4;
+                break;
+            case "Ventura":
+                cellNum = 6;
+                break;
+        }
+
+        for (int i = 8; i <= sheet.getLastRowNum(); i++){
             Double empHours = 0.00;
-            String name = "";
-            Row row = week1.getRow(i);
-            Cell cell = row.getCell(2);
+            String name;
+            Row row = sheet.getRow(i);
+            Cell cell = row.getCell(cellNum);
             name = row.getCell(0).getStringCellValue();
             if (otHours.containsKey(name)) {
                 empHours = otHours.get(name);
