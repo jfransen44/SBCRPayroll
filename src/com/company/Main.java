@@ -1,22 +1,30 @@
 package com.company;
 
+import java.util.Scanner;
+
 public class Main {
 
+    static String[] files = {"/Users/jeremyfransen/desktop/week1D.csv", "/Users/jeremyfransen/desktop/week2D.csv",
+                             "/Users/jeremyfransen/desktop/week1F.csv", "/Users/jeremyfransen/desktop/week2F.csv",
+                             "/Users/jeremyfransen/desktop/week1V.csv", "/Users/jeremyfransen/desktop/week2V.csv"};
+
     public static void main(String[] args) {
-        // write your code here
-        //String calcPath = "/Users/jeremyfransen/Desktop/PRCALCTEST.xls";
-        String week1D = "/Users/jeremyfransen/Desktop/Week1D.csv";
-        String week2D = "/Users/jeremyfransen/Desktop/Week2D.csv";
+        /*Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter file path for report: Week 1 DLV");
+        files[0] = scanner.next();
+        System.out.println("Enter file path for report: Week 2 DLV");
+        files[1] = scanner.next();
+        System.out.println("Enter file path for report: Week 1 Fairview");
+        files[2] = scanner.next();
+        System.out.println("Enter file path for report: Week 2 Fairview");
+        files[3] = scanner.next();
+        System.out.println("Enter file path for report: Week 1 Ventura");
+        files[4] = scanner.next();
+        System.out.println("Enter file path for report: Week 2 Ventura");
+        files[5] = scanner.next();*/
 
-        String week1F = "/Users/jeremyfransen/Desktop/Week1F.csv";
-        String week2F = "/Users/jeremyfransen/Desktop/Week2F.csv";
-
-        String week1V = "/Users/jeremyfransen/Desktop/Week1V.csv";
-        String week2V = "/Users/jeremyfransen/Desktop/Week2V.csv";
-
-        PayrollCalculator payrollCalculator = new PayrollCalculator(week1D, week2D, week1F, week2F,
-                week1V, week2V, "EmptyCalculator.xls");
+        PayrollCalculator payrollCalculator = new PayrollCalculator(files);
         payrollCalculator.processPayroll();
-        payrollCalculator.saveFile("/Users/jeremyfransen/Desktop/output.xls");
+        payrollCalculator.saveFile("/Users/jeremyfransen/desktop/output.xls");
     }
 }

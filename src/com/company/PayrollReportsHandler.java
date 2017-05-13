@@ -45,7 +45,13 @@ public class PayrollReportsHandler {
         return overtimeHours;
     }
 
-    private ArrayList<String> openFile(String filePath){
+    public static String getLocation(String path){
+        ArrayList<String> file = openFile(path);
+        String[] line = file.get(1).split(",");
+        return line[line.length - 1];
+    }
+
+    private static ArrayList<String> openFile(String filePath){
         ArrayList<String> file = new ArrayList<>();
         BufferedReader br = null;
         FileReader fileReader = null;

@@ -23,18 +23,24 @@ public class PayrollCalculator {
     private PayrollReportsHandler reportsWeek1Ventura = null;
     private PayrollReportsHandler reportsWeek2Ventura = null;
 
-    public PayrollCalculator(String week1DLVReportPath, String week2DLVReportPath, String week1GoletaReportPath,
+    public PayrollCalculator(/*String week1DLVReportPath, String week2DLVReportPath, String week1GoletaReportPath,
                              String week2GoletaReportPath, String week1VenturaReportPath,
-                             String week2VenturaReportPath, String excelSheetPath){
+                             String week2VenturaReportPath*/ String[] files){
 
-
-        reportsWeek1DLV = new PayrollReportsHandler(week1DLVReportPath);
+        /*reportsWeek1DLV = new PayrollReportsHandler(week1DLVReportPath);
         reportsWeek2DLV = new PayrollReportsHandler(week2DLVReportPath);
         reportsWeek1Fairview = new PayrollReportsHandler(week1GoletaReportPath);
         reportsWeek2Fairview = new PayrollReportsHandler(week2GoletaReportPath);
         reportsWeek1Ventura = new PayrollReportsHandler(week1VenturaReportPath);
-        reportsWeek2Ventura = new PayrollReportsHandler(week2VenturaReportPath);
-        openFile(excelSheetPath);
+        reportsWeek2Ventura = new PayrollReportsHandler(week2VenturaReportPath);*/
+        reportsWeek1DLV = new PayrollReportsHandler(files[0]);
+        reportsWeek2DLV = new PayrollReportsHandler(files[1]);
+        reportsWeek1Fairview = new PayrollReportsHandler(files[2]);
+        reportsWeek2Fairview = new PayrollReportsHandler(files[3]);
+        reportsWeek1Ventura = new PayrollReportsHandler(files[4]);
+        reportsWeek2Ventura = new PayrollReportsHandler(files[5]);
+        //System.out.println(verifyFiles(files));
+        openFile("EmptyCalculator.xls");
     }
 
     public void processPayroll(){
@@ -273,5 +279,32 @@ public class PayrollCalculator {
             }
             cell.setCellValue(empHours);
         }
+    }
+
+    private boolean verifyFiles(String[] files){
+        int SB = 0;
+        int VTA = 0;
+        int goleta = 0;
+
+
+        for (int i = 0; i < files.length; i++){
+            switch (PayrollReportsHandler.getLocation(files[i])){
+                case "Santa Barbara":
+                    System.out.println("SB");
+                    SB++;
+                    break;
+                case "Goleta":
+                    System.out.println("G");
+
+                    goleta++;
+                    break;
+                case "Ventura":
+                    System.out.println("V");
+
+                    VTA++;
+                    break;
+            }
+        }
+        return (SB == 2 && goleta == 2 && VTA == 2);
     }
 }
