@@ -4,9 +4,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by jeremyfransen on 5/3/17.
@@ -22,10 +20,12 @@ public class PayrollCalculator {
     private PayrollReportsHandler reportsWeek2Fairview = null;
     private PayrollReportsHandler reportsWeek1Ventura = null;
     private PayrollReportsHandler reportsWeek2Ventura = null;
+    private String week1Dates;
+    private String week2Dates;
 
     public PayrollCalculator(/*String week1DLVReportPath, String week2DLVReportPath, String week1GoletaReportPath,
                              String week2GoletaReportPath, String week1VenturaReportPath,
-                             String week2VenturaReportPath*/ String[] files){
+                             String week2VenturaReportPath String[] files,*/ String week1Dates, String week2Dates){
 
         /*reportsWeek1DLV = new PayrollReportsHandler(week1DLVReportPath);
         reportsWeek2DLV = new PayrollReportsHandler(week2DLVReportPath);
@@ -33,14 +33,131 @@ public class PayrollCalculator {
         reportsWeek2Fairview = new PayrollReportsHandler(week2GoletaReportPath);
         reportsWeek1Ventura = new PayrollReportsHandler(week1VenturaReportPath);
         reportsWeek2Ventura = new PayrollReportsHandler(week2VenturaReportPath);*/
-        reportsWeek1DLV = new PayrollReportsHandler(files[0]);
+
+        /*reportsWeek1DLV = new PayrollReportsHandler(files[0]);
         reportsWeek2DLV = new PayrollReportsHandler(files[1]);
         reportsWeek1Fairview = new PayrollReportsHandler(files[2]);
         reportsWeek2Fairview = new PayrollReportsHandler(files[3]);
         reportsWeek1Ventura = new PayrollReportsHandler(files[4]);
-        reportsWeek2Ventura = new PayrollReportsHandler(files[5]);
+        reportsWeek2Ventura = new PayrollReportsHandler(files[5]);*/
+        this.week1Dates = week1Dates;
+        this.week2Dates = week2Dates;
         //System.out.println(verifyFiles(files));
         openFile("EmptyCalculator.xls");
+    }
+
+    public static boolean checkReports(String[] files, String week1Dates, String week2Dates){
+        HashMap<String, Integer> checkFiles = new HashMap<>();
+        checkFiles.put("Santa Barbara", 0);
+        checkFiles.put("Goleta", 0);
+        checkFiles.put("Ventura", 0);
+
+        for (String file : files){
+            String fileDate = file.substring(54, 75);
+            String fileLocation = PayrollReportsHandler.getLocation(file);
+            if (fileDate.equals(week1Dates)){
+                switch (fileLocation){
+                    case "Santa Barbara":
+                        if (checkFiles.containsKey(fileLocation)){
+                            int i = checkFiles.get(fileLocation);
+                            checkFiles.replace(fileLocation, i, i + 1);
+                        }
+                        else {
+                            checkFiles.put(fileLocation, 1);
+                        }
+                        break;
+                    case "Goleta":
+                        if (checkFiles.containsKey(fileLocation)){
+                            int i = checkFiles.get(fileLocation);
+                            checkFiles.replace(fileLocation, i, i + 1);
+                        }
+                        else {
+                            checkFiles.put(fileLocation, 1);
+                        }
+                        break;
+                    case "Ventura":
+                        if (checkFiles.containsKey(fileLocation)){
+                            int i = checkFiles.get(fileLocation);
+                            checkFiles.replace(fileLocation, i, i + 1);
+                        }
+                        else {
+                            checkFiles.put(fileLocation, 1);
+                        }
+                        break;
+                }
+            }
+            else if (fileDate.equals(week2Dates)){
+                switch (fileLocation){
+                    case "Santa Barbara":
+                        if (checkFiles.containsKey(fileLocation)){
+                            int i = checkFiles.get(fileLocation);
+                            checkFiles.replace(fileLocation, i, i + 1);
+                        }
+                        else {
+                            checkFiles.put(fileLocation, 1);
+                        }
+                        break;
+                    case "Goleta":
+                        if (checkFiles.containsKey(fileLocation)){
+                            int i = checkFiles.get(fileLocation);
+                            checkFiles.replace(fileLocation, i, i + 1);
+                        }
+                        else {
+                            checkFiles.put(fileLocation, 1);
+                        }
+                        break;
+                    case "Ventura":
+                        if (checkFiles.containsKey(fileLocation)){
+                            int i = checkFiles.get(fileLocation);
+                            checkFiles.replace(fileLocation, i, i + 1);
+                        }
+                        else {
+                            checkFiles.put(fileLocation, 1);
+                        }
+                        break;
+                }
+            }
+        }
+
+        //each location should have 1 file for each week
+        for (Integer i : checkFiles.values()){
+            if (i != 2)
+                return false;
+        }
+        return true;
+    }
+
+    public void processReports(String[] files){
+        for (String file : files){
+            String fileDate = file.substring(54, 75);
+            String fileLocation = PayrollReportsHandler.getLocation(file);
+            if (fileDate.equals(week1Dates)){
+                switch (fileLocation){
+                    case "Santa Barbara":
+                        reportsWeek1DLV = new PayrollReportsHandler(file);
+                        break;
+                    case "Goleta":
+                        reportsWeek1Fairview = new PayrollReportsHandler(file);
+                        break;
+                    case "Ventura":
+                        reportsWeek1Ventura = new PayrollReportsHandler(file);
+                        break;
+                }
+            }
+            else if (fileDate.equals(week2Dates)){
+                switch (fileLocation){
+                    case "Santa Barbara":
+                        reportsWeek2DLV = new PayrollReportsHandler(file);
+                        break;
+                    case "Goleta":
+                        reportsWeek2Fairview = new PayrollReportsHandler(file);
+                        break;
+                    case "Ventura":
+                        reportsWeek2Ventura = new PayrollReportsHandler(file);
+                        break;
+                }
+            }
+        }
     }
 
     public void processPayroll(){
@@ -307,4 +424,5 @@ public class PayrollCalculator {
         }
         return (SB == 2 && goleta == 2 && VTA == 2);
     }
+
 }
