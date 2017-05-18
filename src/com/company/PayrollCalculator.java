@@ -127,6 +127,7 @@ public class PayrollCalculator {
         return true;
     }
 
+    //create PayrollReportsHandler object for each report file
     public void processReports(String[] files){
         for (String file : files){
             String fileDate = file.substring(54, 75);
@@ -160,6 +161,8 @@ public class PayrollCalculator {
         }
     }
 
+
+    //enter all data from each report into payrollCalculator workbook
     public void processPayroll(){
         addNames();
 
@@ -397,32 +400,4 @@ public class PayrollCalculator {
             cell.setCellValue(empHours);
         }
     }
-
-    private boolean verifyFiles(String[] files){
-        int SB = 0;
-        int VTA = 0;
-        int goleta = 0;
-
-
-        for (int i = 0; i < files.length; i++){
-            switch (PayrollReportsHandler.getLocation(files[i])){
-                case "Santa Barbara":
-                    System.out.println("SB");
-                    SB++;
-                    break;
-                case "Goleta":
-                    System.out.println("G");
-
-                    goleta++;
-                    break;
-                case "Ventura":
-                    System.out.println("V");
-
-                    VTA++;
-                    break;
-            }
-        }
-        return (SB == 2 && goleta == 2 && VTA == 2);
-    }
-
 }

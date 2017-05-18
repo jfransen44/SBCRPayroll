@@ -13,6 +13,8 @@ public class Main {
                               "/Users/jeremyfransen/desktop/test files/PayrollExport_2017_05_01-2017_05_07-2.csv",
                               "/Users/jeremyfransen/desktop/test files/PayrollExport_2017_05_01-2017_05_07.csv",
                               "/Users/jeremyfransen/desktop/test files/PayrollExport_2017_05_01-2017_05_07-3.csv"};
+    static String file3 = "/Users/jeremyfransen/desktop/test files/PayrollExport_2017_05_01-2017_05_07-3.csv";
+
 
     static String date1 = "2017_04_24-2017_04_30";
     static String date2 = "2017_05_01-2017_05_07";
@@ -36,8 +38,7 @@ public class Main {
             payrollCalculator.processReports(files2);
             payrollCalculator.processPayroll();
             payrollCalculator.saveFile("/Users/jeremyfransen/desktop/output2.xls");
-        }
-        else
+        } else
             System.out.println("FILE ERROR");
     }
 }
