@@ -46,6 +46,8 @@ public class PayrollCalculator {
         openFile("EmptyCalculator.xls");
     }
 
+
+    //check dates in file names against user input dates, check that there are 2 files for each location - 1 for each week
     public static boolean checkReports(String[] files, String week1Dates, String week2Dates){
         HashMap<String, Integer> checkFiles = new HashMap<>();
         checkFiles.put("Santa Barbara", 0);
@@ -53,9 +55,9 @@ public class PayrollCalculator {
         checkFiles.put("Ventura", 0);
 
         for (String file : files){
-            String fileDate = file.substring(54, 75);
+
             String fileLocation = PayrollReportsHandler.getLocation(file);
-            if (fileDate.equals(week1Dates)){
+            if (file.contains(week1Dates)){
                 switch (fileLocation){
                     case "Santa Barbara":
                         if (checkFiles.containsKey(fileLocation)){
@@ -86,7 +88,7 @@ public class PayrollCalculator {
                         break;
                 }
             }
-            else if (fileDate.equals(week2Dates)){
+            else if (file.contains(week2Dates)){
                 switch (fileLocation){
                     case "Santa Barbara":
                         if (checkFiles.containsKey(fileLocation)){
@@ -130,9 +132,8 @@ public class PayrollCalculator {
     //create PayrollReportsHandler object for each report file
     public void processReports(String[] files){
         for (String file : files){
-            String fileDate = file.substring(54, 75);
             String fileLocation = PayrollReportsHandler.getLocation(file);
-            if (fileDate.equals(week1Dates)){
+            if (file.contains(week1Dates)){
                 switch (fileLocation){
                     case "Santa Barbara":
                         reportsWeek1DLV = new PayrollReportsHandler(file);
@@ -145,7 +146,7 @@ public class PayrollCalculator {
                         break;
                 }
             }
-            else if (fileDate.equals(week2Dates)){
+            else if (file.contains(week2Dates)){
                 switch (fileLocation){
                     case "Santa Barbara":
                         reportsWeek2DLV = new PayrollReportsHandler(file);
@@ -328,6 +329,8 @@ public class PayrollCalculator {
         cell.setCellFormula(formula);
     }
 
+
+    //collect, merge, and alphabetize all employee names
     private ArrayList<String> getNames(){
         ArrayList<String> names = reportsWeek1DLV.getEmpNames();
         names.removeAll(reportsWeek2DLV.getEmpNames());
