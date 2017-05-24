@@ -35,13 +35,13 @@ public class Main {
         System.out.println("Enter file path for report: Week 1 Ventura");
         files[4] = scanner.next();
         System.out.println("Enter file path for report: Week 2 Ventura");
-        files[5] = scanner.next();*/
+        files[5] = scanner.next();
         if (PayrollCalculator.checkReports(files, date1, date2)) {
             PayrollCalculator payrollCalculator = new PayrollCalculator(date1, date2);
             payrollCalculator.processReports(files);
             payrollCalculator.processPayroll();
             payrollCalculator.saveFile("/Users/jeremyfransen/documents/SBCR/PAYROLL/PAYROLL HISTORY/2017/5-8-17 - 5-21-17");
         } else
-            System.out.println("FILE ERROR");
+            System.out.println("FILE ERROR");*/
     }
 }

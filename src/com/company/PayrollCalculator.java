@@ -14,12 +14,12 @@ public class PayrollCalculator {
     private Sheet week1 = null;
     private Sheet week2 = null;
     private Sheet total = null;
-    private PayrollReportsHandler reportsWeek1DLV = null;
-    private PayrollReportsHandler reportsWeek2DLV = null;
-    private PayrollReportsHandler reportsWeek1Fairview = null;
-    private PayrollReportsHandler reportsWeek2Fairview = null;
-    private PayrollReportsHandler reportsWeek1Ventura = null;
-    private PayrollReportsHandler reportsWeek2Ventura = null;
+    private PayrollReport reportsWeek1DLV = null;
+    private PayrollReport reportsWeek2DLV = null;
+    private PayrollReport reportsWeek1Fairview = null;
+    private PayrollReport reportsWeek2Fairview = null;
+    private PayrollReport reportsWeek1Ventura = null;
+    private PayrollReport reportsWeek2Ventura = null;
     private String week1Dates;
     private String week2Dates;
 
@@ -27,19 +27,19 @@ public class PayrollCalculator {
                              String week2GoletaReportPath, String week1VenturaReportPath,
                              String week2VenturaReportPath String[] files,*/ String week1Dates, String week2Dates){
 
-        /*reportsWeek1DLV = new PayrollReportsHandler(week1DLVReportPath);
-        reportsWeek2DLV = new PayrollReportsHandler(week2DLVReportPath);
-        reportsWeek1Fairview = new PayrollReportsHandler(week1GoletaReportPath);
-        reportsWeek2Fairview = new PayrollReportsHandler(week2GoletaReportPath);
-        reportsWeek1Ventura = new PayrollReportsHandler(week1VenturaReportPath);
-        reportsWeek2Ventura = new PayrollReportsHandler(week2VenturaReportPath);*/
+        /*reportsWeek1DLV = new PayrollReport(week1DLVReportPath);
+        reportsWeek2DLV = new PayrollReport(week2DLVReportPath);
+        reportsWeek1Fairview = new PayrollReport(week1GoletaReportPath);
+        reportsWeek2Fairview = new PayrollReport(week2GoletaReportPath);
+        reportsWeek1Ventura = new PayrollReport(week1VenturaReportPath);
+        reportsWeek2Ventura = new PayrollReport(week2VenturaReportPath);*/
 
-        /*reportsWeek1DLV = new PayrollReportsHandler(files[0]);
-        reportsWeek2DLV = new PayrollReportsHandler(files[1]);
-        reportsWeek1Fairview = new PayrollReportsHandler(files[2]);
-        reportsWeek2Fairview = new PayrollReportsHandler(files[3]);
-        reportsWeek1Ventura = new PayrollReportsHandler(files[4]);
-        reportsWeek2Ventura = new PayrollReportsHandler(files[5]);*/
+        /*reportsWeek1DLV = new PayrollReport(files[0]);
+        reportsWeek2DLV = new PayrollReport(files[1]);
+        reportsWeek1Fairview = new PayrollReport(files[2]);
+        reportsWeek2Fairview = new PayrollReport(files[3]);
+        reportsWeek1Ventura = new PayrollReport(files[4]);
+        reportsWeek2Ventura = new PayrollReport(files[5]);*/
         this.week1Dates = week1Dates;
         this.week2Dates = week2Dates;
         //System.out.println(verifyFiles(files));
@@ -56,7 +56,7 @@ public class PayrollCalculator {
 
         for (String file : files){
 
-            String fileLocation = PayrollReportsHandler.getLocation(file);
+            String fileLocation = PayrollReport.getLocation(file);
             if (file.contains(week1Dates)){
                 switch (fileLocation){
                     case "Santa Barbara":
@@ -129,33 +129,33 @@ public class PayrollCalculator {
         return true;
     }
 
-    //create PayrollReportsHandler object for each report file
+    //create PayrollReport object for each report file
     public void processReports(String[] files){
         for (String file : files){
-            String fileLocation = PayrollReportsHandler.getLocation(file);
+            String fileLocation = PayrollReport.getLocation(file);
             if (file.contains(week1Dates)){
                 switch (fileLocation){
                     case "Santa Barbara":
-                        reportsWeek1DLV = new PayrollReportsHandler(file);
+                        reportsWeek1DLV = new PayrollReport(file);
                         break;
                     case "Goleta":
-                        reportsWeek1Fairview = new PayrollReportsHandler(file);
+                        reportsWeek1Fairview = new PayrollReport(file);
                         break;
                     case "Ventura":
-                        reportsWeek1Ventura = new PayrollReportsHandler(file);
+                        reportsWeek1Ventura = new PayrollReport(file);
                         break;
                 }
             }
             else if (file.contains(week2Dates)){
                 switch (fileLocation){
                     case "Santa Barbara":
-                        reportsWeek2DLV = new PayrollReportsHandler(file);
+                        reportsWeek2DLV = new PayrollReport(file);
                         break;
                     case "Goleta":
-                        reportsWeek2Fairview = new PayrollReportsHandler(file);
+                        reportsWeek2Fairview = new PayrollReport(file);
                         break;
                     case "Ventura":
-                        reportsWeek2Ventura = new PayrollReportsHandler(file);
+                        reportsWeek2Ventura = new PayrollReport(file);
                         break;
                 }
             }
@@ -222,7 +222,6 @@ public class PayrollCalculator {
 
 
     public void addNames() {
-
         ArrayList<String> names = getNames();
         for (int i = 0; i < names.size(); i++){
             String name = names.get(i);
