@@ -11,6 +11,9 @@ import static javafx.application.Application.launch;
 
 public class Main extends Application{
 
+    private String week1Dates = "";
+    private String week2Dates = "";
+
     static String[] files = {"/Users/jeremyfransen/Downloads/PayrollExport_2017_05_08-2017_05_14.csv",
                              "/Users/jeremyfransen/Downloads/PayrollExport_2017_05_08-2017_05_14-2.csv",
                              "/Users/jeremyfransen/Downloads/PayrollExport_2017_05_08-2017_05_14-3.csv",

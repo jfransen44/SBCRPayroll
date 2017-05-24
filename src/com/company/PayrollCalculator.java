@@ -4,6 +4,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -130,7 +131,7 @@ public class PayrollCalculator {
     }
 
     //create PayrollReport object for each report file
-    public void processReports(String[] files){
+    private void processReports(String[] files){
         for (String file : files){
             String fileLocation = PayrollReport.getLocation(file);
             if (file.contains(week1Dates)){
@@ -164,7 +165,9 @@ public class PayrollCalculator {
 
 
     //enter all data from each report into payrollCalculator workbook
-    public void processPayroll(){
+    public void processPayroll(String[] files){
+        processReports(files);
+
         addNames();
 
         enterRegHours(reportsWeek1DLV.getRegHours(), week1, "De La Vina");
@@ -401,5 +404,12 @@ public class PayrollCalculator {
             }
             cell.setCellValue(empHours);
         }
+    }
+
+    public String getPayrollDates(){
+        final LocalDate START = LocalDate.of(2017, 5, 8);
+        LocalDate test = LocalDate.of(2017, 5, 22);
+        System.out.println(START.compareTo(test));
+        return "";
     }
 }

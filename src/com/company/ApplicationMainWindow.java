@@ -24,6 +24,8 @@ public class ApplicationMainWindow extends VBox {
     private ListView<File> fileListView;
     private DatePicker startDatePicker, endDatePicker;
     private LocalDate startDate, endDate;
+    private PayrollCalculator payrollCalculator;
+
 
     public ApplicationMainWindow(){
         this.setPrefSize(700, 500);
@@ -46,6 +48,7 @@ public class ApplicationMainWindow extends VBox {
         bottomHBox.getChildren().addAll(processButton, saveButton);
 
         setLayout();
+        setListeners();
     }
 
     private void setLayout(){
@@ -74,7 +77,6 @@ public class ApplicationMainWindow extends VBox {
     private void setListeners(){
         startDatePicker.setOnAction(e -> {
             startDate = startDatePicker.getValue();
-            System.out.println(startDate.toString().replaceAll("-", "_") + "-" + startDate.plusDays(6).toString().replaceAll("-", "_")  );
         });
 
         endDatePicker.setOnAction(e -> {
@@ -114,6 +116,40 @@ public class ApplicationMainWindow extends VBox {
         });
 
         processButton.setOnAction(e -> {
+            String [] files = new String [6];
+            String week1Dates = null;
+            String week2Dates = null;
+            List <File> fileList = null;
+
+            if (fileListView.getItems() != null && fileListView.getItems().size() == 6){
+                fileList = fileListView.getItems();
+                for (int i = 0; i < fileList.size(); i++){
+                    files[i] = fileList.get(i).toString();
+                }
+            }
+            else {
+                //TODO create alert dialog
+            }
+
+            if (startDate != null){
+                week1Dates = startDate.toString().replaceAll("-" , "_") + "-" + startDate.plusDays(6).toString().replaceAll("-" , "_");
+                //System.out.println(week1Dates);
+            }
+
+            if (endDate != null){
+                week2Dates = endDate.minusDays(6).toString().replaceAll("-" , "_") + "-" + endDate.toString().replaceAll("-" , "_");
+                //System.out.println(week2Dates);
+            }
+
+            if (fileList != null && week1Dates != null && week2Dates != null){
+                if (PayrollCalculator.checkReports(files, week1Dates, week2Dates)){
+                    System.out.println("HERE");
+
+                    payrollCalculator = new PayrollCalculator(week1Dates, week2Dates);
+                    payrollCalculator.processPayroll(files);
+                    System.out.println("PROCESSED");
+                }
+            }
 
         });
     }
