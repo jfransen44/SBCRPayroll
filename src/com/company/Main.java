@@ -1,8 +1,15 @@
 package com.company;
 
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 
-public class Main {
+import static javafx.application.Application.launch;
+
+public class Main extends Application{
 
     static String[] files = {"/Users/jeremyfransen/Downloads/PayrollExport_2017_05_08-2017_05_14.csv",
                              "/Users/jeremyfransen/Downloads/PayrollExport_2017_05_08-2017_05_14-2.csv",
@@ -43,5 +50,16 @@ public class Main {
             payrollCalculator.saveFile("/Users/jeremyfransen/documents/SBCR/PAYROLL/PAYROLL HISTORY/2017/5-8-17 - 5-21-17");
         } else
             System.out.println("FILE ERROR");*/
+        launch(args);
+    }
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = new ApplicationMainWindow();
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("SBCR PAYROLL");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
