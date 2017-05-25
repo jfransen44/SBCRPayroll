@@ -1,5 +1,6 @@
 package com.company;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -107,11 +108,16 @@ public class ApplicationMainWindow extends VBox {
         });
 
         saveButton.setOnAction(e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Report");
-            File file = fileChooser.showSaveDialog(this.getScene().getWindow());
-            if (file != null){
-
+            if (payrollCalculator != null) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Report");
+                File file = fileChooser.showSaveDialog(this.getScene().getWindow());
+                if (file != null) {
+                    payrollCalculator.saveFile(file.toString());
+                }
+            }
+            else{
+                //TODO add alert dialog for empty calculator
             }
         });
 
@@ -128,7 +134,7 @@ public class ApplicationMainWindow extends VBox {
                 }
             }
             else {
-                //TODO create alert dialog
+                //TODO create alert dialog for wrong number of files
             }
 
             if (startDate != null){
