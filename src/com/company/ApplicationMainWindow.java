@@ -1,6 +1,5 @@
 package com.company;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -8,11 +7,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Created by jeremyfransen on 5/23/17.
@@ -47,7 +50,6 @@ public class ApplicationMainWindow extends VBox {
         topHBox.getChildren().addAll(startDatePicker, endDatePicker, selectReportsButton);
         middleHBox.getChildren().add(removeFilesButton);
         bottomHBox.getChildren().addAll(processButton, saveButton);
-
         setLayout();
         setListeners();
     }
@@ -61,8 +63,22 @@ public class ApplicationMainWindow extends VBox {
         topHBox.setMargin(selectReportsButton, new Insets(5));
         topHBox.setSpacing(25);
 
-        startDatePicker.setPromptText("Start Date");
-        endDatePicker.setPromptText("End Date");
+        /*startDatePicker.setPromptText("Start Date");
+        endDatePicker.setPromptText("End Date");*/
+        final LocalDate START_DATE_REFERENCE = LocalDate.of(2017, 5, 8);
+        startDate = LocalDate.now();
+
+        while (! startDate.getDayOfWeek().name().equals("MONDAY")){
+            startDate = startDate.minusDays(1);
+        }
+
+        while ( DAYS.between(START_DATE_REFERENCE, startDate) % 14 != 0){
+            startDate = startDate.minusDays(7);
+        }
+        
+        startDatePicker.setValue(startDate);
+        endDatePicker.setValue(startDate.plusDays(13));
+        endDate = startDate.plusDays(13);
 
         middleHBox.setAlignment(Pos.CENTER_RIGHT);
         middleHBox.setPadding(new Insets(5));
@@ -78,6 +94,8 @@ public class ApplicationMainWindow extends VBox {
     private void setListeners(){
         startDatePicker.setOnAction(e -> {
             startDate = startDatePicker.getValue();
+            endDate = startDate.plusDays(13);
+            endDatePicker.setValue(startDate.plusDays(13));
         });
 
         endDatePicker.setOnAction(e -> {
@@ -108,9 +126,11 @@ public class ApplicationMainWindow extends VBox {
         });
 
         saveButton.setOnAction(e -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
             if (payrollCalculator != null) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Save Report");
+                fileChooser.setInitialFileName(startDate.format(formatter) + " - " + endDate.format(formatter) + ".xls");
                 File file = fileChooser.showSaveDialog(this.getScene().getWindow());
                 if (file != null) {
                     payrollCalculator.saveFile(file.toString());
@@ -149,11 +169,12 @@ public class ApplicationMainWindow extends VBox {
 
             if (fileList != null && week1Dates != null && week2Dates != null){
                 if (PayrollCalculator.checkReports(files, week1Dates, week2Dates)){
-                    System.out.println("HERE");
-
                     payrollCalculator = new PayrollCalculator(week1Dates, week2Dates);
                     payrollCalculator.processPayroll(files);
-                    System.out.println("PROCESSED");
+                    statusLabel.setText("Payroll processed");
+                }
+                else{
+                    //TODO create alert for incorrect dates
                 }
             }
 
