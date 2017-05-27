@@ -137,7 +137,7 @@ public class ApplicationMainWindow extends VBox {
                 }
             }
             else{
-                //TODO add alert dialog for empty calculator
+                AlertBox.display("Error", "You have not processed your reports");
             }
         });
 
