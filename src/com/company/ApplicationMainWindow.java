@@ -154,7 +154,7 @@ public class ApplicationMainWindow extends VBox {
                 }
             }
             else {
-                //TODO create alert dialog for wrong number of files
+                AlertBox.display("Error", "You must select 6 reports");
             }
 
             if (startDate != null){
@@ -174,7 +174,7 @@ public class ApplicationMainWindow extends VBox {
                     statusLabel.setText("Payroll processed");
                 }
                 else{
-                    //TODO create alert for incorrect dates
+                    AlertBox.display("Error", "Selected dates and report dates do not match");
                 }
             }
 
