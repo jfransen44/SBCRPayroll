@@ -4,11 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -22,17 +23,21 @@ import static java.time.temporal.ChronoUnit.DAYS;
  */
 public class ApplicationMainWindow extends VBox {
 
-    private HBox topHBox, middleHBox, bottomHBox;
-    private Button selectReportsButton, processButton, removeFilesButton, saveButton;
-    private Label toOpenLabel, statusLabel;
-    private ListView<File> fileListView;
-    private DatePicker startDatePicker, endDatePicker;
-    private LocalDate startDate, endDate;
-    private PayrollCalculator payrollCalculator;
+
+    private static VBox container;
+    private static HBox topHBox, middleHBox, bottomHBox;
+    private static Button selectReportsButton, processButton, removeFilesButton, saveButton;
+    private static Label toOpenLabel, statusLabel;
+    private static ListView<File> fileListView;
+    private static DatePicker startDatePicker, endDatePicker;
+    private static LocalDate startDate, endDate;
+    private static PayrollCalculator payrollCalculator;
 
 
-    public ApplicationMainWindow(){
-        this.setPrefSize(700, 500);
+    public static void display(){
+
+        Stage window = new Stage();
+        container = new VBox();
         topHBox = new HBox();
         middleHBox = new HBox();
         bottomHBox = new HBox();
@@ -46,16 +51,20 @@ public class ApplicationMainWindow extends VBox {
         processButton = new Button("Process");
         removeFilesButton = new Button("Remove Selected");
         saveButton = new Button("Save");
-        this.getChildren().addAll(topHBox, toOpenLabel, fileListView, statusLabel, middleHBox, bottomHBox);
+        container.getChildren().addAll(topHBox, toOpenLabel, fileListView, statusLabel, middleHBox, bottomHBox);
         topHBox.getChildren().addAll(startDatePicker, endDatePicker, selectReportsButton);
         middleHBox.getChildren().add(removeFilesButton);
         bottomHBox.getChildren().addAll(processButton, saveButton);
         setLayout();
         setListeners();
+        Scene scene = new Scene(container);
+        window.setScene(scene);
+        window.show();
     }
 
-    private void setLayout(){
-        this.setPadding(new Insets(25));
+    private static void setLayout(){
+        container.setPrefSize(700, 500);
+        container.setPadding(new Insets(25));
         topHBox.setAlignment(Pos.TOP_CENTER);
         topHBox.setPadding(new Insets(5));
         topHBox.setMargin(startDatePicker, new Insets(5));
@@ -91,7 +100,8 @@ public class ApplicationMainWindow extends VBox {
         bottomHBox.setAlignment(Pos.TOP_RIGHT);
     }
 
-    private void setListeners(){
+    private static void setListeners(){
+
         startDatePicker.setOnAction(e -> {
             startDate = startDatePicker.getValue();
             endDate = startDate.plusDays(13);
@@ -106,8 +116,7 @@ public class ApplicationMainWindow extends VBox {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Payroll Reports");
 
-
-            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(this.getScene().getWindow());
+            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(container.getScene().getWindow());
             ObservableList<File> obsList = FXCollections.observableList(fileListView.getItems());
             if (selectedFiles != null) {
                 for (File file : selectedFiles){
@@ -131,7 +140,7 @@ public class ApplicationMainWindow extends VBox {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Save Report");
                 fileChooser.setInitialFileName(startDate.format(formatter) + " - " + endDate.format(formatter) + ".xls");
-                File file = fileChooser.showSaveDialog(this.getScene().getWindow());
+                File file = fileChooser.showSaveDialog(container.getScene().getWindow());
                 if (file != null) {
                     payrollCalculator.saveFile(file.toString());
                 }

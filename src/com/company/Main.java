@@ -59,10 +59,11 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = new ApplicationMainWindow();
+        /*Parent root = new ApplicationMainWindow();
         Scene scene = new Scene(root);
         primaryStage.setTitle("SBCR PAYROLL");
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show();*/
+        ApplicationMainWindow.display();
     }
 }
