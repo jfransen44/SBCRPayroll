@@ -1,11 +1,7 @@
 package com.company;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-
 import java.io.*;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -25,31 +21,16 @@ public class PayrollCalculator {
     private String week1Dates;
     private String week2Dates;
 
-    public PayrollCalculator(/*String week1DLVReportPath, String week2DLVReportPath, String week1GoletaReportPath,
-                             String week2GoletaReportPath, String week1VenturaReportPath,
-                             String week2VenturaReportPath String[] files,*/ String week1Dates, String week2Dates){
 
-        /*reportsWeek1DLV = new PayrollReport(week1DLVReportPath);
-        reportsWeek2DLV = new PayrollReport(week2DLVReportPath);
-        reportsWeek1Fairview = new PayrollReport(week1GoletaReportPath);
-        reportsWeek2Fairview = new PayrollReport(week2GoletaReportPath);
-        reportsWeek1Ventura = new PayrollReport(week1VenturaReportPath);
-        reportsWeek2Ventura = new PayrollReport(week2VenturaReportPath);*/
-
-        /*reportsWeek1DLV = new PayrollReport(files[0]);
-        reportsWeek2DLV = new PayrollReport(files[1]);
-        reportsWeek1Fairview = new PayrollReport(files[2]);
-        reportsWeek2Fairview = new PayrollReport(files[3]);
-        reportsWeek1Ventura = new PayrollReport(files[4]);
-        reportsWeek2Ventura = new PayrollReport(files[5]);*/
+    //week1Dates and week2Dates should be in the format : yyyy_mm_dd-yyyy_mm_dd
+    public PayrollCalculator(String week1Dates, String week2Dates){
         this.week1Dates = week1Dates;
         this.week2Dates = week2Dates;
-        //System.out.println(verifyFiles(files));
         openFile("EmptyCalculator.xls");
     }
 
 
-    //check dates in file names against user input dates, check that there are 2 files for each location - 1 for each week
+    //check dates in file names against user input dates, check that there are 2 files for each location; 1 for each week
     public static boolean checkReports(String[] files, String week1Dates, String week2Dates){
         HashMap<String, Integer> checkFiles = new HashMap<>();
         checkFiles.put("Santa Barbara", 0);
@@ -225,6 +206,7 @@ public class PayrollCalculator {
     }
 
 
+    //add all employee names to workbook, then repair the formulas
     public void addNames() {
         ArrayList<String> names = getNames();
         for (int i = 0; i < names.size(); i++){
@@ -405,13 +387,5 @@ public class PayrollCalculator {
             }
             cell.setCellValue(empHours);
         }
-    }
-
-    public String getPayrollDates(){
-        final LocalDate START = LocalDate.of(2017, 5, 8);
-        LocalDate test = LocalDate.of(2017, 5, 22);
-        System.out.println(START.compareTo(test));
-        return "";
-
     }
 }

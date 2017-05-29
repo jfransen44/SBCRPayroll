@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="141a2b17-d9da-42f6-add8-d581a807c375" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/ApplicationMainWindow.java" afterPath="$PROJECT_DIR$/src/com/company/ApplicationMainWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Main.java" afterPath="$PROJECT_DIR$/src/com/company/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaPayroll/com/company/Main.class" afterPath="$PROJECT_DIR$/out/production/JavaPayroll/com/company/Main.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/PayrollCalculator.java" afterPath="$PROJECT_DIR$/src/com/company/PayrollCalculator.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,11 +33,9 @@
       <file leaf-file-name="PayrollCalculator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/PayrollCalculator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2520">
-              <caret line="215" column="0" lean-forward="false" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -121,6 +120,7 @@
       <find>payroll</find>
       <find>todaysDate</find>
       <find>save</find>
+      <find>names</find>
     </findStrings>
     <replaceStrings>
       <replace>fileStringWeek2</replace>
@@ -148,10 +148,10 @@
         <option value="$PROJECT_DIR$/src/com/company/MainWindow.java" />
         <option value="$PROJECT_DIR$/src/com/company/VerifyReports.java" />
         <option value="$PROJECT_DIR$/src/com/company/MainWindowController.java" />
-        <option value="$PROJECT_DIR$/src/com/company/PayrollCalculator.java" />
         <option value="$PROJECT_DIR$/src/com/company/AlertBox.java" />
         <option value="$PROJECT_DIR$/src/com/company/ApplicationMainWindow.java" />
         <option value="$PROJECT_DIR$/src/com/company/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/company/PayrollCalculator.java" />
       </list>
     </option>
   </component>
@@ -551,9 +551,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3225">
           <caret line="215" column="0" lean-forward="false" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -605,9 +603,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -651,9 +647,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -732,11 +726,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/PayrollCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2520">
-          <caret line="215" column="0" lean-forward="false" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="60">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
