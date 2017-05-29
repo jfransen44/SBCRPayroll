@@ -1,5 +1,6 @@
 package com.company;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,11 +25,13 @@ public class CloseDialog{
         VBox vBox = new VBox();
         HBox hBox = new HBox();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setMinWidth(300);
+        window.setMinWidth(325);
         window.setMinHeight(100);
-        hBox.setSpacing(25);
+        hBox.setSpacing(10);
         hBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(20);
+        label.setPadding(new Insets(5));
+        hBox.setPadding(new Insets(10));
+        vBox.setPadding(new Insets(5));
         vBox.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(noButton, yesButton, saveButton);
         vBox.getChildren().addAll(label, hBox);
