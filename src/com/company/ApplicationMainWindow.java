@@ -81,6 +81,8 @@ public class ApplicationMainWindow extends VBox {
         final LocalDate START_DATE_REFERENCE = LocalDate.of(2017, 5, 8);
         startDate = LocalDate.now();
 
+
+        //TODO create method for checking start date.  If current day - monday <= 1, set start date for prev monday
         while (! startDate.getDayOfWeek().name().equals("MONDAY")){
             startDate = startDate.minusDays(1);
         }
@@ -201,7 +203,7 @@ public class ApplicationMainWindow extends VBox {
     }
 
     private static void saveFile(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         if (payrollCalculator != null) {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Report");
@@ -209,6 +211,7 @@ public class ApplicationMainWindow extends VBox {
             File file = fileChooser.showSaveDialog(container.getScene().getWindow());
             if (file != null) {
                 payrollCalculator.saveFile(file.toString());
+                isFileSaved = true;
             }
         }
         else{

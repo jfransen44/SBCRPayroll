@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="JavaPayroll:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaPayroll_jar</output-path>
+    <root id="archive" name="JavaPayroll.jar">
+      <element id="module-output" name="JavaPayroll" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/poi-3.16/poi-3.16.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/poi-3.16/poi-ooxml-3.16.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/commons-collections4-4.1/commons-collections4-4.1.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/EmptyCalculator.xls" />
+    </root>
+  </artifact>
+</component>

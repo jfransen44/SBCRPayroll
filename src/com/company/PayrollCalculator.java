@@ -4,6 +4,8 @@ import org.apache.poi.ss.usermodel.*;
 import java.io.*;
 import java.util.*;
 
+import static com.sun.org.apache.xerces.internal.utils.SecuritySupport.getResourceAsStream;
+
 /**
  * Created by jeremyfransen on 5/3/17.
  */
@@ -26,7 +28,7 @@ public class PayrollCalculator {
     public PayrollCalculator(String week1Dates, String week2Dates){
         this.week1Dates = week1Dates;
         this.week2Dates = week2Dates;
-        openFile("EmptyCalculator.xls");
+        openFile();
     }
 
 
@@ -171,9 +173,19 @@ public class PayrollCalculator {
         enterOTHours(reportsWeek2Ventura.getOvertimeHours(), week2, "Ventura");
     }
 
-    private void openFile(String filePath){
+
+    //TODO add if to check if file is null for running inside IDE
+    private void openFile(){
+        String filePath = "/EmptyCalculator.xls";
         try{
-            InputStream inputStream = new FileInputStream(filePath);
+            InputStream inputStream =  getClass().getResourceAsStream(filePath);
+            //payrollCalculator =  WorkbookFactory.create(inputStream);
+
+            if (inputStream == null){
+                filePath = "EmptyCalculator.xls";
+                inputStream = new FileInputStream(filePath);
+                //payrollCalculator = WorkbookFactory.create(inputStream);
+            }
             payrollCalculator =  WorkbookFactory.create(inputStream);
 
         }
