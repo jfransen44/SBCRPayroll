@@ -81,15 +81,18 @@ public class ApplicationMainWindow extends VBox {
         final LocalDate START_DATE_REFERENCE = LocalDate.of(2017, 5, 8);
         startDate = LocalDate.now();
 
-
-        //TODO create method for checking start date.  If current day - monday <= 1, set start date for prev monday
+        //set start date to nearest previous monday
         while (! startDate.getDayOfWeek().name().equals("MONDAY")){
             startDate = startDate.minusDays(1);
         }
 
+        //set startdate to two week pay period
         while ( DAYS.between(START_DATE_REFERENCE, startDate) % 14 != 0){
             startDate = startDate.minusDays(7);
         }
+
+        //set startDate to correct pay period
+        startDate = startDate.minusDays(14);
         
         startDatePicker.setValue(startDate);
         endDatePicker.setValue(startDate.plusDays(13));

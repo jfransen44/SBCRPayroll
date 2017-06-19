@@ -174,7 +174,6 @@ public class PayrollCalculator {
     }
 
 
-    //TODO add if to check if file is null for running inside IDE
     private void openFile(){
         String filePath = "/EmptyCalculator.xls";
         try{
