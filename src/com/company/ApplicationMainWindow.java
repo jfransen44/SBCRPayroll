@@ -211,7 +211,7 @@ public class ApplicationMainWindow extends VBox {
     }
 
     private static void saveFile(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M-d-yyyy");
         if (payrollCalculator != null) {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Report");
