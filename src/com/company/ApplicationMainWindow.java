@@ -54,6 +54,7 @@ public class ApplicationMainWindow extends VBox {
         selectReportsButton = new Button("Select Reports");
         processButton = new Button("Process");
         removeFilesButton = new Button("Remove Selected");
+        removeFilesButton.setDisable(true);
         saveButton = new Button("Save");
         container.getChildren().addAll(topHBox, toOpenLabel, fileListView, statusLabel, middleHBox, bottomHBox);
         topHBox.getChildren().addAll(startDateLabel, startDatePicker,  endDateLabel, endDatePicker, selectReportsButton);
@@ -134,6 +135,7 @@ public class ApplicationMainWindow extends VBox {
                 }
                 fileListView.setItems(obsList);
             }
+            removeFilesButton.setDisable(false);
         });
 
         removeFilesButton.setOnAction(e -> {
@@ -141,6 +143,9 @@ public class ApplicationMainWindow extends VBox {
             f.removeAll((fileListView.getSelectionModel().getSelectedItems()));
             fileListView.setItems(f);
             fileListView.getSelectionModel().clearSelection();
+            if (fileListView.getItems().isEmpty()) {
+                removeFilesButton.setDisable(true);
+            }
         });
 
         saveButton.setOnAction(e -> saveFile());
